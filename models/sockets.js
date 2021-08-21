@@ -19,8 +19,8 @@ class Sockets {
 
       //On connection es el que abre el socket 
       this.io.on('connection', (socket) => {
-
-         console.log("cliente conectado")
+         
+         console.log("cliente conectado",socket.id,new Date().toLocaleTimeString())
 
       socket.on('solicitar-ticket', (_, callback) => {
          const ticketCreado = this.ticketList.crearTicket();
@@ -35,8 +35,10 @@ class Sockets {
          this.io.emit('ticket-asignado', this.ticketList.ultimos13);
          
       })
-
-   }); //fin this.io.on(''connection)
+      socket.on('disconnect',() => {
+         console.log('desconectado',socket.id,new Date().toLocaleTimeString())
+      })
+     }); //fin this.io.on(''connection)
    }
 } //fin clase Sockets
 
